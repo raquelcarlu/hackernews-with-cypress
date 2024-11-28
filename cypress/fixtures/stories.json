@@ -1,0 +1,36 @@
+{
+    "hits": [
+        {
+            "title": "Guerrilla Public Service Redux (2017)",
+            "url": "https://example.com/guerrilla",
+            "author": "DerWOK",
+            "num_comments": 110,
+            "points": 421,
+            "objectID": 0
+        },
+        {
+            "title": "Build Yourself a Redux",
+            "url": "https://example.com/buildyourselfaredux",
+            "author": "jdeal",
+            "num_comments": 155,
+            "points": 395,
+            "objectID": 1
+        },
+        {
+            "title": "Cypress.io Blocking of Sorry Cypress and Currents",
+            "url": "https://example.com/cypresioblockingofsorrycypressandcurrents",
+            "author": "madmax108",
+            "num_comments": 54,
+            "points": 78,
+            "objectID": 2
+        },
+        {
+            "title": "Cypress is now public beta",
+            "url": "https://example.com/cypresisnowpublicbeta",
+            "author": "dhotson",
+            "num_comments": 1,
+            "points": 7,
+            "objectID": 3
+        }
+    ]
+}
