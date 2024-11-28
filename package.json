@@ -1,0 +1,41 @@
+{
+  "name": "hackernews-with-cypress",
+  "version": "1.0.0",
+  "description": "Automação de testes end-to-end da aplicação em questão (disponibilizada no curso avançado de testes automatizados com Cypress da Escola TAT) com Cypress.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "npx standard",
+    "lint:fix": "npx standard --fix",
+    "test": "cypress run --reporter nyan",
+    "cy:open": "cypress open"
+  },
+  "standard": {
+    "globals": [
+      "beforeEach",
+      "context",
+      "describe",
+      "it",
+      "cy",
+      "Cypress"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raquelcarlu/hackernews-with-cypress"
+  },
+  "keywords": [
+    "cypress",
+    "test",
+    "automation",
+    "api",
+    "hackernews",
+    "e2e",
+    "end-to-end",
+    "testing"
+  ],
+
+  "author": "Raquel Carneiro Lucio",
+  "devDependencies": {
+    "cypress": "^13.16.0"
+  }
+}
