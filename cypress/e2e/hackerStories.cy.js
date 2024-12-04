@@ -84,16 +84,80 @@ describe('Hacker Stories', () => {
 
       cy.get('.table > *').should('have.length', 4)
     })
-  })
 
-  context('Ordenação', () => {
-    it.skip('ordenar por título', () => { })
+    context('Ordenação', () => {
+      it('ordenar por título', () => { 
+        cy.get(':nth-child(1) > .button-inline')
+          .as('titleHeader')
+          .should('be.visible')
+          .click()
+  
+        cy.get('.table > *').eq(1)
+          .should('be.visible')
+          .and('contain', stories.hits[1].title)
+  
+        cy.get('@titleHeader')
+          .click()
+  
+        cy.get('.table > *').eq(1)
+          .should('be.visible')
+          .and('contain', stories.hits[0].title)
+      })
+  
+      it('ordenar por autor', () => {
+        cy.get(':nth-child(2) > .button-inline')
+          .as('authorHeader')
+          .should('be.visible')
+          .click()
 
-    it.skip('ordenar por autor', () => { })
+        cy.get('.table > *').eq(1)
+          .should('be.visible')
+          .and('contain', stories.hits[0].author)
 
-    it.skip('ordenar por número de comentários', () => { })
+        cy.get('@authorHeader')
+          .click()
 
-    it.skip('ordenar por número de pontos', () => { })
+        cy.get('.table > *').eq(1)
+          .should('be.visible')
+          .and('contain', stories.hits[2].author)
+      })
+  
+      it('ordenar por número de comentários', () => {
+        cy.get(':nth-child(3) > .button-inline')
+          .should('be.visible')
+          .as('commentsHeader')
+          .click()
+
+        cy.get('.table > *').eq(1)
+          .should('be.visible')
+          .and('contain', stories.hits[1].num_comments)
+
+        cy.get('@commentsHeader')
+          .click()
+
+        cy.get('.table > *').eq(1)
+          .should('be.visible')
+          .and('contain', stories.hits[3].num_comments)
+      })
+  
+      it('ordenar por número de pontos', () => {
+        cy.get(':nth-child(4) > .button-inline')
+          .should('be.visible')
+          .as('pointsHeader')
+          .click()
+
+        cy.get('.table > *').eq(1)
+          .should('be.visible')
+          .and('contain', stories.hits[0].points)
+
+        cy.get('@pointsHeader')
+          .click()
+
+        cy.get('.table > *').eq(1)
+          .should('be.visible')
+          .and('contain', stories.hits[3].points)
+      })
+    })
   })
 
   context('Pesquisa', () => {
