@@ -158,18 +158,92 @@ describe('Hacker Stories', () => {
           .and('contain', stories.hits[3].points)
       })
     })
+
+    context('Pesquisa', () => {
+      beforeEach(() => {
+        cy.intercept(
+          'GET',
+          `**/search?query=${initialTerm}*`,
+          { fixture: 'empty' }
+        ).as('getEmptyStories')
+
+        cy.intercept(
+          'GET',
+          `**/search?query=${newTerm}*`,
+          { fixture: 'stories' }
+        ).as('getNewStoriesMock')
+  
+        cy.visit('/')
+        cy.wait('@getEmptyStories')
+        cy.get('input')
+          .should('be.visible')
+          .clear()
+      })
+  
+      it('mostrar nenhuma história quando nenhuma história for encontrada', () => {
+        cy.get('.table > *').should('have.length', 1)
+      })
+  
+      it('pesquisar depois de digitar e clicar em ENTER', () => {
+        cy.get('input')
+          .should('be.visible')
+          .type(`${newTerm}{enter}`)
+
+        cy.wait('@getNewStoriesMock')
+
+        cy.get('.table > *').should('have.length', 5)
+      })
+  
+      it('pesquisar depois de digitar e clicar no botão "Search"', () => {
+        cy.get('input')
+          .should('be.visible')
+          .type(newTerm)
+        cy.get('div > div:nth-child(1) > form > button')
+          .should('be.visible')
+          .click()
+        
+        cy.wait('@getNewStoriesMock')
+
+        cy.get('.table > *').should('have.length', 5)
+      })
+  
+      it('pesquisar e submeter a pesquisa diretamente', () => {
+        cy.get('input')
+          .should('be.visible')
+          .clear()
+          .type(newTerm)
+        cy.get('form').submit()
+
+        cy.wait('@getNewStoriesMock')
+
+        cy.get('.table > *').should('have.length', 5)
+      })
+
+      it('verificar se pesquisa está sendo salva na memória cache', () => {
+        const { faker } = require('@faker-js/faker')
+        const randomTerm = faker.word.sample()
+        let count = 0
+
+        cy.intercept(`**/search?query=${randomTerm}**`, req => {
+          count +=1
+          req.reply({fixture: 'empty'})
+        }).as('random')
+
+        cy.search(randomTerm).then(() => {
+          expect(count, `network calls to fetch ${randomTerm}`).to.equal(1)
+
+          cy.wait('@random')
+
+          cy.search(newTerm)
+          cy.wait('@getNewStoriesMock')
+
+          cy.search(randomTerm).then(() => {
+            expect(count, `network calls to fetch ${randomTerm}`).to.equal(1)
+          })
+        })
+      })
+    })
   })
-
-  context('Pesquisa', () => {
-    it.skip('mostrar nenhuma história quando nenhuma história for encontrada', () => { })
-
-    it.skip('pesquisar depois de digitar e clicar em ENTER', () => { })
-
-    it.skip('pesquisar depois de digitar e clicar no botão "Search"', () => { })
-
-    it.skip('pesquisar e submeter a pesquisa diretamente', () => { })
-  })
-
 
   context('Erros', () => {
     it.skip('server error', () => { })
