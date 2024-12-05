@@ -1,13 +1,15 @@
 # Automatizando aplicação que integra com a API Hacker News
 
 ![image](https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&logo=cypress&logoColor=white)
-![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
 
 Automação de testes end-to-end da aplicação em questão (disponibilizada no curso avançado de testes automatizados com Cypress da Escola TAT) com Cypress.
 
 **Objetivo:**
 
-* Demonstrar as capacidades do Cypress na automação de testes web.
+* Demonstrar as capacidades do Cypress na automação de testes web
+* Aplicar a funcionalidade `cy.intercept()`
+* Testar cenários de erro
+* Realizar testes onde a resposta devolvida pela API é "mockada"
 
 **Tecnologias utilizadas:**
 
@@ -28,4 +30,13 @@ Automação de testes end-to-end da aplicação em questão (disponibilizada no 
 4. Ou execute os testes visualmente: `npm run cy:open`. 
 
 **Características deste projeto:**
+
+1. Simulação de situações de erro (de servidor e de rede);
+2. Conferência se um termo está sendo buscado no servidor ou na cache;
+3. Buscas via API Hacker News;
+4. Testes sendo feitos na API e testes feitos na API "mockada";
+5. Aplicação da funcionalidade `cy.intercept()`;
+6. Garantir que um elemento está visível antes de interagir com o mesmo;
+7. Organização com Page Elements.
+
 
