@@ -246,8 +246,30 @@ describe('Hacker Stories', () => {
   })
 
   context('Erros', () => {
-    it.skip('server error', () => { })
+    it('server error', () => {
+      cy.intercept(
+        'GET',
+        '**/search*',
+        { statusCode: 500 }
+      ).as('getServerError')
 
-    it.skip('network error', () => { })
+      cy.visit('/')
+      cy.wait('@getServerError')
+
+      cy.get('p:contains("Something went wrong")').should('be.visible')
+    })
+
+    it.only('network error', () => {
+      cy.intercept(
+        'GET',
+        '**/search*',
+        { forceNetworkError: true }
+      ).as('getNetworkError')
+
+      cy.visit('/')
+      cy.wait('@getNetworkError')
+
+      cy.get('p:contains("Something went wrong")').should('be.visible')
+    })
   })
 })
