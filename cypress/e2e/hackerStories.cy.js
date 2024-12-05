@@ -1,3 +1,5 @@
+import pageElements from '../support/pageElements'
+
 describe('Hacker Stories', () => {
   const initialTerm = 'redux'
   const newTerm = 'cypress'
@@ -27,7 +29,7 @@ describe('Hacker Stories', () => {
           page: '1'
         }
       }).as('getMoreStories')
-      cy.get('.table > *').should('have.length', 101)
+      cy.get(pageElements.table).should('have.length', 101)
 
       cy.contains('More')
         .should('be.visible')
@@ -35,7 +37,7 @@ describe('Hacker Stories', () => {
 
       cy.wait('@getMoreStories')
 
-      cy.get('.table > *').should('have.length', 201)
+      cy.get(pageElements.table).should('have.length', 201)
     })
   })
 
@@ -52,25 +54,25 @@ describe('Hacker Stories', () => {
     })
     it('mostra a história certa para cada história renderizada', () => {
 
-      cy.get('.table > *').eq(1)
+      cy.get(pageElements.table).eq(1)
         .should('contain', stories.hits[0].title)
         .and('contain', stories.hits[0].author)
         .and('contain', stories.hits[0].num_comments)
         .and('contain', stories.hits[0].points)
 
-      cy.get('.table > *').eq(2)
+      cy.get(pageElements.table).eq(2)
         .should('contain', stories.hits[1].title)
         .and('contain', stories.hits[1].author)
         .and('contain', stories.hits[1].num_comments)
         .and('contain', stories.hits[1].points)
 
-      cy.get('.table > *').eq(3)
+      cy.get(pageElements.table).eq(3)
         .should('contain', stories.hits[2].title)
         .and('contain', stories.hits[2].author)
         .and('contain', stories.hits[2].num_comments)
         .and('contain', stories.hits[2].points)
 
-      cy.get('.table > *').eq(4)
+      cy.get(pageElements.table).eq(4)
         .should('contain', stories.hits[3].title)
         .and('contain', stories.hits[3].author)
         .and('contain', stories.hits[3].num_comments)
@@ -78,82 +80,82 @@ describe('Hacker Stories', () => {
     })
 
     it('mostra uma história a menos após clicar em "Dismiss" para uma história', () => {
-      cy.get(':nth-child(2) > :nth-child(5) > .button-inline')
+      cy.get(pageElements.firstDismissButton)
         .should('be.visible')
         .click()
 
-      cy.get('.table > *').should('have.length', 4)
+      cy.get(pageElements.table).should('have.length', 4)
     })
 
     context('Ordenação', () => {
       it('ordenar por título', () => { 
-        cy.get(':nth-child(1) > .button-inline')
+        cy.get(pageElements.titleButton)
           .as('titleHeader')
           .should('be.visible')
           .click()
   
-        cy.get('.table > *').eq(1)
+        cy.get(pageElements.table).eq(1)
           .should('be.visible')
           .and('contain', stories.hits[1].title)
   
         cy.get('@titleHeader')
           .click()
   
-        cy.get('.table > *').eq(1)
+        cy.get(pageElements.table).eq(1)
           .should('be.visible')
           .and('contain', stories.hits[0].title)
       })
   
       it('ordenar por autor', () => {
-        cy.get(':nth-child(2) > .button-inline')
+        cy.get(pageElements.authorButton)
           .as('authorHeader')
           .should('be.visible')
           .click()
 
-        cy.get('.table > *').eq(1)
+        cy.get(pageElements.table).eq(1)
           .should('be.visible')
           .and('contain', stories.hits[0].author)
 
         cy.get('@authorHeader')
           .click()
 
-        cy.get('.table > *').eq(1)
+        cy.get(pageElements.table).eq(1)
           .should('be.visible')
           .and('contain', stories.hits[2].author)
       })
   
       it('ordenar por número de comentários', () => {
-        cy.get(':nth-child(3) > .button-inline')
+        cy.get(pageElements.commentsButton)
           .should('be.visible')
           .as('commentsHeader')
           .click()
 
-        cy.get('.table > *').eq(1)
+        cy.get(pageElements.table).eq(1)
           .should('be.visible')
           .and('contain', stories.hits[1].num_comments)
 
         cy.get('@commentsHeader')
           .click()
 
-        cy.get('.table > *').eq(1)
+        cy.get(pageElements.table).eq(1)
           .should('be.visible')
           .and('contain', stories.hits[3].num_comments)
       })
   
       it('ordenar por número de pontos', () => {
-        cy.get(':nth-child(4) > .button-inline')
+        cy.get(pageElements.pointsButton)
           .should('be.visible')
           .as('pointsHeader')
           .click()
 
-        cy.get('.table > *').eq(1)
+        cy.get(pageElements.table).eq(1)
           .should('be.visible')
           .and('contain', stories.hits[0].points)
 
         cy.get('@pointsHeader')
           .click()
 
-        cy.get('.table > *').eq(1)
+        cy.get(pageElements.table).eq(1)
           .should('be.visible')
           .and('contain', stories.hits[3].points)
       })
@@ -181,34 +183,34 @@ describe('Hacker Stories', () => {
       })
   
       it('mostrar nenhuma história quando nenhuma história for encontrada', () => {
-        cy.get('.table > *').should('have.length', 1)
+        cy.get(pageElements.table).should('have.length', 1)
       })
   
       it('pesquisar depois de digitar e clicar em ENTER', () => {
-        cy.get('input')
+        cy.get(pageElements.searchInput)
           .should('be.visible')
           .type(`${newTerm}{enter}`)
 
         cy.wait('@getNewStoriesMock')
 
-        cy.get('.table > *').should('have.length', 5)
+        cy.get(pageElements.table).should('have.length', 5)
       })
   
       it('pesquisar depois de digitar e clicar no botão "Search"', () => {
-        cy.get('input')
+        cy.get(pageElements.searchInput)
           .should('be.visible')
           .type(newTerm)
-        cy.get('div > div:nth-child(1) > form > button')
+        cy.get(pageElements.serachButton)
           .should('be.visible')
           .click()
         
         cy.wait('@getNewStoriesMock')
 
-        cy.get('.table > *').should('have.length', 5)
+        cy.get(pageElements.table).should('have.length', 5)
       })
   
       it('pesquisar e submeter a pesquisa diretamente', () => {
-        cy.get('input')
+        cy.get(pageElements.searchInput)
           .should('be.visible')
           .clear()
           .type(newTerm)
@@ -216,7 +218,7 @@ describe('Hacker Stories', () => {
 
         cy.wait('@getNewStoriesMock')
 
-        cy.get('.table > *').should('have.length', 5)
+        cy.get(pageElements.table).should('have.length', 5)
       })
 
       it('verificar se pesquisa está sendo salva na memória cache', () => {
@@ -259,7 +261,7 @@ describe('Hacker Stories', () => {
       cy.get('p:contains("Something went wrong")').should('be.visible')
     })
 
-    it.only('network error', () => {
+    it('network error', () => {
       cy.intercept(
         'GET',
         '**/search*',
